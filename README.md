@@ -22,7 +22,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 3. 速度较快。同时进行分词和词性标注速度为300KB/s，每秒可处理约15万字。只进行分词速度可达到1.3MB/s。
 
 ##编译和安装
-* python版
+* python版(2.7版)
 		
 		将thulac放到目录下，通过 import thulac 来引用
 		

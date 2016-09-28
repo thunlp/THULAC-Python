@@ -7,7 +7,6 @@ from .base.WordWithTag import WordWithTag
 from .base.AlphaBeta import AlphaBeta
 import time
 import array
-import numpy
 
 class CBTaggingDecoder:
     def __init__(self):
