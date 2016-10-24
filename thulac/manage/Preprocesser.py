@@ -195,14 +195,14 @@ class Preprocesser:
                     npStartVec.append(npStart)
                     npRaw = []
                 hasAt = True
-                npStart = len(graph) - 1
+                npStart = len(graph)
                 npRaw = []
             elif(hasAt):
                 npRaw.append(c)
 
             if(c == 12298):
                 hasTitle = True
-                titleStart = len(graph) - 1
+                titleStart = len(graph)
                 titleRaw = []
             elif(hasTitle):
                 titleRaw.append(c)
@@ -260,7 +260,7 @@ class Preprocesser:
         return senClean, graph
 
     def isPossibleTitle(self, titleRaw):
-        if(len(titleRaw) > 10):
+        if(len(titleRaw) > 10 or len(titleRaw) == 0):
             return False
         else:
             for i in range(len(titleRaw)):

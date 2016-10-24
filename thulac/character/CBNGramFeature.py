@@ -119,10 +119,10 @@ class CBNGramFeature:
                 self.addValues(valueOffset, self.biBases[i], 51, tmp)
             if((self.biBases[i + 3]) != -1):
                 self.addValues(valueOffset, self.biBases[i + 3], 52, tmp)
-            self.values[valueOffset] = tmp[0]
-            self.values[valueOffset + 1] = tmp[1]
-            self.values[valueOffset + 2] = tmp[2]
-            self.values[valueOffset + 3] = tmp[3]
+            self.values[valueOffset] += tmp[0]
+            self.values[valueOffset + 1] += tmp[1]
+            self.values[valueOffset + 2] += tmp[2]
+            self.values[valueOffset + 3] += tmp[3]
 
         # end = time.clock()
         # print "AV Time used: %f s" % (end - start)

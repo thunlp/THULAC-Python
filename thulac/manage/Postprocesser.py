@@ -55,8 +55,8 @@ class Postprocesser():
             for k in xrange(vecSize-1, -1, -1):
                 tmp = tmpVec[k]
                 if(self.p_dat.match(tmp) != -1):
-                    sentence[i][0] = tmp
-                    del sentence[i+1, i+k+2]
-                    sentence[i][2] = self.tag;
+                    sentence[i] = (tmp, '_', self.tag)
+                    del sentence[i+1:i+k+2]
+                    # sentence[i][2] = self.tag;
                     break
             i+=1
