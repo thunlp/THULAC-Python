@@ -59,39 +59,9 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 	-input input_file	设置从文件读入，默认为命令行输入
 	-output output_file	设置输出到文件中，默认为命令行输出
 
+###2.获取模型
 
-###2.模型训练程序
-模型训练程序train_c是THULAC分词模型的训练程序，用户可以使用train_c训练获得THULAC的分词模型。目前只有C++版本。
-
-####2.1.命令格式
-
-		./train_c [-s separator] [-b bigram_threshold] [-i iteration] training_filename model_filename   
-		使用training_filename为训练集，训练出来的模型名字为model_filename
-
-####2.2.参数意义
-		
-		-s 				设置词与词性间的分隔符，默认为斜线/
-		-b				设置二字串的阀值，默认为1
-		-i				设置训练迭代的轮数，默认为15
-		
-####2.3.训练集格式
-我们使用默认的分隔符（斜线/）作为例子，训练集内容应为
-		
-		我/r 爱/vm 北京/ns 天安门/ns
-		
-类似的已经进行词性标注的句子。
-
-若要训练出只分词的模型，使用默认的分隔符（斜线/）作为例子，训练集内容应为
-		
-		我/ 爱/ 北京/ 天安门/ 
-		
-类似的句子。	
-
-####2.4.使用训练出的模型
-将训练出来的模型覆盖原来models中的对应模型，之后执行分词程序即可使用训练出来的模型。
-
-###3.获取模型
-获取已经训练好的THULAC模型，请登录[thulac.thunlp.org](http://thulac.thunlp.org)网站填写个人信息进行下载。
+THULAC需要分词和词性标注模型的支持，获取下载好的模型用户可以登录[thulac.thunlp.org](http://thulac.thunlp.org)网站填写个人信息进行下载，并放到THULAC的根目录即可，或者使用参数`-model_dir dir`指定模型的位置。
 
 ##代表分词软件的性能对比
 我们选择LTP、ICTCLAS、结巴分词等国内代表分词软件与THULAC做性能比较。我们选择Windows作为测试环境，根据第二届国际汉语分词测评发布的国际中文分词测评标准，对不同软件进行了速度和准确率测试。
