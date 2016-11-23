@@ -30,8 +30,8 @@ class Preprocesser:
 
         singlePun = [65292, 12290, 65311, 65281, 65306, 65307, 8216, 8217, 8220, 8221, 1230, 12304, \
                     12305, 12289, 12298, 12299, 64,35, 65288, 65289, 34, 91, 93, 126, 47, 44, 58, \
-                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41]
-        templen = 39
+                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41, 59]
+        templen = 40
         for i in range(templen):
             self.singlePunSet.append(singlePun[i])
 
@@ -103,10 +103,10 @@ class Preprocesser:
                         graph[-1] = o
                     hasSpace = True
 
-                if(hasAt):
-                    npVec.append(npRaw)
-                    npStartVec.append(npStart)
-                    hasAt = False
+                # if(hasAt):
+                #     npVec.append(npRaw)
+                #     npStartVec.append(npStart)
+                #     hasAt = False
             elif(self.isOther(c)):
                 if(hasSpace):
                     senClean += sentence[i]
@@ -144,11 +144,11 @@ class Preprocesser:
                     else:
                         hasSinglePun = False
 
-                if(c == 41 or c == 65289):
-                    if(hasAt):
-                        npVec.append(npRaw)
-                        npStartVec.append(npStart)
-                        hasAt = False
+                # if(c == 41 or c == 65289):
+                #     if(hasAt):
+                #         npVec.append(npRaw)
+                #         npStartVec.append(npStart)
+                #         hasAt = False
                 if(c == 12299):
                     if(hasTitle):
                         titleVec.append(titleRaw)
@@ -189,16 +189,16 @@ class Preprocesser:
                     httpStartVec.append(httpStart)
                     hasHttp = False
 
-            if(c == 64):
-                if(hasAt):
-                    npVec.append(npRaw)
-                    npStartVec.append(npStart)
-                    npRaw = []
-                hasAt = True
-                npStart = len(graph)
-                npRaw = []
-            elif(hasAt):
-                npRaw.append(c)
+            # if(c == 64):
+            #     if(hasAt):
+            #         npVec.append(npRaw)
+            #         npStartVec.append(npStart)
+            #         npRaw = []
+            #     hasAt = True
+            #     npStart = len(graph)
+            #     npRaw = []
+            # elif(hasAt):
+            #     npRaw.append(c)
 
             if(c == 12298):
                 hasTitle = True
@@ -209,9 +209,9 @@ class Preprocesser:
         if(len(tmpRaw) != 0):
             httpVec.append(tmpRaw)
             httpStartVec.append(httpStart)
-        if(len(npRaw) != 0):
-            npVec.append(npRaw)
-            npStartVec.append(npStart)
+        # if(len(npRaw) != 0):
+        #     npVec.append(npRaw)
+        #     npStartVec.append(npStart)
 
         tempstr = ""
         for i in range(len(httpVec)):
@@ -227,17 +227,17 @@ class Preprocesser:
                     graph[j] = 2
                 graph[start + size - 1] = 4
 
-        for i in range(len(npVec)):
-            npRaw = npVec[i]
-            if(len(npRaw) < 15):
-                start = npStartVec[i]
-                size = len(npRaw)
+        # for i in range(len(npVec)):
+        #     npRaw = npVec[i]
+        #     if(len(npRaw) < 15):
+        #         start = npStartVec[i]
+        #         size = len(npRaw)
 
-                graph[start] = 1
-                # for(int j = start + 1; j < start + size - 1; j ++){
-                for j in range(start + 1, start + size -1):
-                    graph[j] = 2
-                graph[start + size - 1] = 4
+        #         graph[start] = 1
+        #         # for(int j = start + 1; j < start + size - 1; j ++){
+        #         for j in range(start + 1, start + size -1):
+        #             graph[j] = 2
+        #         graph[start + size - 1] = 4
 
         for i in range(len(titleVec)):
             titleRaw = titleVec[i]
