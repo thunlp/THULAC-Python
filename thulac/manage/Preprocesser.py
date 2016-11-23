@@ -30,8 +30,8 @@ class Preprocesser:
 
         singlePun = [65292, 12290, 65311, 65281, 65306, 65307, 8216, 8217, 8220, 8221, 1230, 12304, \
                     12305, 12289, 12298, 12299, 64,35, 65288, 65289, 34, 91, 93, 126, 47, 44, 58, \
-                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41, 59]
-        templen = 40
+                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41, 59, 61]
+        templen = 41
         for i in range(templen):
             self.singlePunSet.append(singlePun[i])
 
@@ -174,20 +174,20 @@ class Preprocesser:
                 hasSpace = False
                 hasOther = False
 
-            if(self.isHttp(c)):
-                if(not hasHttp):
-                    if(c == 'h'):
-                        httpStart = len(graph) - 1
-                        tmpRaw = []
-                        tmpRaw.append(c)
-                        hasHttp = True
-                else:
-                    tmpRaw.append(c)
-            else:
-                if(hasHttp):
-                    httpVec.append(tmpRaw)
-                    httpStartVec.append(httpStart)
-                    hasHttp = False
+            # if(self.isHttp(c)):
+            #     if(not hasHttp):
+            #         if(c == 'h'):
+            #             httpStart = len(graph) - 1
+            #             tmpRaw = []
+            #             tmpRaw.append(c)
+            #             hasHttp = True
+            #     else:
+            #         tmpRaw.append(c)
+            # else:
+            #     if(hasHttp):
+            #         httpVec.append(tmpRaw)
+            #         httpStartVec.append(httpStart)
+            #         hasHttp = False
 
             # if(c == 64):
             #     if(hasAt):
@@ -206,26 +206,26 @@ class Preprocesser:
                 titleRaw = []
             elif(hasTitle):
                 titleRaw.append(c)
-        if(len(tmpRaw) != 0):
-            httpVec.append(tmpRaw)
-            httpStartVec.append(httpStart)
+        # if(len(tmpRaw) != 0):
+        #     httpVec.append(tmpRaw)
+        #     httpStartVec.append(httpStart)
         # if(len(npRaw) != 0):
         #     npVec.append(npRaw)
         #     npStartVec.append(npStart)
 
-        tempstr = ""
-        for i in range(len(httpVec)):
-            tempstr = "".join(httpVec[i])
-            found = tempstr.find("http")
-            if(found != -1):
-                start = httpStartVec[i]
-                size = len(tempstr)
-                # //std::cout<<std::endl<<sentence<<":Here:"<<str<<":"<<start<<":"<<size<<":"<<graph.size()<<std::endl;
-                graph[start] = 1
-                # for(int j = start + 1; j < start + size - 1; j ++){
-                for j in range(start+1, start + size - 1):
-                    graph[j] = 2
-                graph[start + size - 1] = 4
+        # tempstr = ""
+        # for i in range(len(httpVec)):
+        #     tempstr = "".join(httpVec[i])
+        #     found = tempstr.find("http")
+        #     if(found != -1):
+        #         start = httpStartVec[i]
+        #         size = len(tempstr)
+        #         # //std::cout<<std::endl<<sentence<<":Here:"<<str<<":"<<start<<":"<<size<<":"<<graph.size()<<std::endl;
+        #         graph[start] = 1
+        #         # for(int j = start + 1; j < start + size - 1; j ++){
+        #         for j in range(start+1, start + size - 1):
+        #             graph[j] = 2
+        #         graph[start + size - 1] = 4
 
         # for i in range(len(npVec)):
         #     npRaw = npVec[i]
