@@ -102,6 +102,7 @@ class Preprocesser:
                         o = graph[-1] & 12
                         graph[-1] = o
                     hasSpace = True
+                    continue
 
                 # if(hasAt):
                 #     npVec.append(npRaw)
