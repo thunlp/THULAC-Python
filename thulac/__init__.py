@@ -102,19 +102,22 @@ class thulac:
                 # if(self.userDict is not None):
                     # self.userDict.adjustSeg(segged)
                 if(self.useFilter):
-                    self.nsDict.adjustSeg(segged)
-                    self.idiomDict.adjustSeg(segged)
                     self.myfilter.adjustSeg(segged)
+                self.nsDict.adjustSeg(segged)
+                self.idiomDict.adjustSeg(segged)
+                
                 return map(lambda x: x.encode(self.coding), segged)
                 
             else:
                 tmp, tagged = self.tagging_decoder.segmentTag(raw, poc_cands)
+
                 # if(self.userDict is not None):
                     # self.userDict.adjustTag(tagged)
                 if(self.useFilter):
-                    self.nsDict.adjustTag(tagged)
-                    self.idiomDict.adjustTag(tagged)
                     self.myfilter.adjustTag(tagged)
+                self.nsDict.adjustTag(tagged)
+                self.idiomDict.adjustTag(tagged)
+                    
                 return map(lambda x: "".join(x).encode(self.coding), tagged)
         
     def run(self):
