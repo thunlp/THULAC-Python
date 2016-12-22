@@ -25,6 +25,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 * python版(2.7版)
 		
 		将thulac放到目录下，通过 import thulac 来引用
+		thulac需要模型的支持，需要将下载的模型放到thulac目录下。
 		
 ##使用方式
 ###1.分词和词性标注程序
