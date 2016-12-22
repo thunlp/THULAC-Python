@@ -129,10 +129,13 @@ CNKI_journal.txt（51 MB）
 ###THULAC（Java版）
 [https://github.com/thunlp/THULAC-Java](https://github.com/thunlp/THULAC-Java)
 
+###THULAC（so版）
+[https://github.com/thunlp/THULAC.so](https://github.com/thunlp/THULAC.so)
+
 ##历史
 
-更新时间 | 更新内容|
-:------------ | :------------- :| 
+|更新时间 | 更新内容|
+|:------------ | :------------- :| 
 |2016-09-29| 增加THULAC分词so版本。|
 |2016-03-31| 增加THULAC分词python版本。|
 |2016-01-20| 增加THULAC分词Java版本。|
