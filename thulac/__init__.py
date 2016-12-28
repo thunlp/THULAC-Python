@@ -1,13 +1,13 @@
 #coding = utf-8
-from character.CBModel import CBModel
-from character.CBNGramFeature import CBNGramFeature
-from character.CBTaggingDecoder import CBTaggingDecoder
-from manage.Preprocesser import Preprocesser
-from manage.Postprocesser import Postprocesser
-from manage.Filter import Filter
+from .character.CBModel import CBModel
+from .character.CBNGramFeature import CBNGramFeature
+from .character.CBTaggingDecoder import CBTaggingDecoder
+from .manage.Preprocesser import Preprocesser
+from .manage.Postprocesser import Postprocesser
+from .manage.Filter import Filter
 import time
 import os
-
+import sys
 
 class thulac:
     def __init__(self, args):
@@ -21,6 +21,7 @@ class thulac:
         self.input_file = ""
         self.output_file = ""
         self.coding = "utf-8"
+        self.version = sys.version_info[0]
         c = 0
         if(len(args) > 0):
             args = args.split(" ")
@@ -86,9 +87,14 @@ class thulac:
         if(self.useFilter):
             self.myfilter = Filter((self.prefix+"xu.dat"), (self.prefix+"time.dat"))
 
+    def encode(self, s):
+        if(self.version == 2):
+            return s.encode(self.coding)
+        return s
 
     def cut(self, oiraw):
-        oiraw = oiraw.decode(self.coding)
+        if(self.version == 2):
+            oiraw = oiraw.decode(self.coding)
         if(self.useT2S):
             traw, poc_cands = self.preprocesser.clean(oiraw)
             raw = self.preprocesser.T2S(traw)
@@ -106,7 +112,7 @@ class thulac:
                 self.nsDict.adjustSeg(segged)
                 self.idiomDict.adjustSeg(segged)
                 
-                return map(lambda x: x.encode(self.coding), segged)
+                return list(map(lambda x: self.encode(x), segged))
                 
             else:
                 tmp, tagged = self.tagging_decoder.segmentTag(raw, poc_cands)
@@ -118,7 +124,7 @@ class thulac:
                 self.nsDict.adjustTag(tagged)
                 self.idiomDict.adjustTag(tagged)
                     
-                return map(lambda x: "".join(x).encode(self.coding), tagged)
+                return list(map(lambda x: self.encode(x), segged))
         
     def run(self):
         start = time.clock()
@@ -141,16 +147,16 @@ class thulac:
                     output_f.write(" ".join(segged))
                     output_f.write("\n")
                 else:
-                    print " ".join(segged)
+                    print(" ".join(segged))
             else:
                 tagged = self.cut(oiraw)
                 if(output_f is not None):
                     output_f.write(" ".join(tagged))
                     output_f.write("\n")
                 else:
-                    print " ".join(tagged)
+                    print(" ".join(tagged))
         end = time.clock()
-        print "Time used: %f s" % (end - start)
+        print("Time used: %f s" % (end - start))
             
 
     def getRaw(self, inputfile):

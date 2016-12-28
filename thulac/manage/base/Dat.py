@@ -7,8 +7,7 @@ class Dat:
 
     def __init__(self, filename):
         inputfile = open(filename, "rb")
-        
-        self.datSize = os.path.getsize(filename) / 8
+        self.datSize = int(os.path.getsize(filename) / 8)
         s = inputfile.read(8 * self.datSize)
         tmp = "<"+str(self.datSize*2)+"i"
         self.dat = struct.unpack(tmp, s)
@@ -18,7 +17,7 @@ class Dat:
     
     def printDat(self, filename):
         f = open(filename, "w")
-        for i in xrange(self.datSize):
+        for i in range(self.datSize):
             f.write(""+self.dat[2 * i]+" "+self.dat[2 * i + 1]+"\n")
         f.close()
     

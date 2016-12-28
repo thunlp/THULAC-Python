@@ -20,8 +20,8 @@ class CBNGramFeature:
         self.dat = myDat.getDat()
         self.model = model
         self.maxLength = 10000
-        self.uniBases = [0 for i in xrange(self.maxLength + 2)]
-        self.biBases = [0 for i in xrange(self.maxLength + 4)]
+        self.uniBases = [0 for i in range(self.maxLength + 2)]
+        self.biBases = [0 for i in range(self.maxLength + 4)]
     
     def addValues(self, valueOffset, base, dele, tmp):
         ind = self.dat[2 * base] + dele
@@ -40,7 +40,7 @@ class CBNGramFeature:
             # self.values[valueOffset + 2] += self.model.fl_weights[weightOffset + 2]
             # self.values[valueOffset + 3] += self.model.fl_weights[weightOffset + 3]
         else:
-            for i in xrange(self.model.l_size):
+            for i in range(self.model.l_size):
                 self.values[valueOffset + i] += self.model.fl_weights[weightOffset + i]
     
     def findBases(self, datSize, ch1, ch2):
@@ -73,7 +73,7 @@ class CBNGramFeature:
 
     def putValues(self, sequence, mylen, values):
         if(mylen >= self.maxLength):
-            print "larger than max"
+            print("larger than max")
             return 1
 
         # start = time.clock()
@@ -86,7 +86,7 @@ class CBNGramFeature:
         # self.uniBases[0] = result[0]
         # self.biBases[1] = result[1]
 
-        for i in xrange(mylen - 1):
+        for i in range(mylen - 1):
             self.uniBases[i + 1], self.biBases[i + 2] = self.findBases(self.datSize, sequence[i], sequence[i+1])
             # self.uniBases[i+1] = result[0]
             # self.biBases[i+2] = result[1]
@@ -102,7 +102,7 @@ class CBNGramFeature:
         # end = time.clock()
         # print "FB Time used: %f s" % (end - start)
         # start = time.clock()
-        for i in xrange(mylen):
+        for i in range(mylen):
             tmp = [0, 0, 0, 0]
             valueOffset = i * self.model.l_size
             if((self.uniBases[i + 1]) != -1):

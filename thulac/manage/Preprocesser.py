@@ -60,7 +60,7 @@ class Preprocesser:
 
     def setT2SMap(self, filename):
         file = open(filename, "rb")
-        self.datSize = os.path.getsize(filename) / 8
+        self.datSize = int(os.path.getsize(filename) / 8)
         tempbytes = file.read(4 * self.datSize)
         tra = struct.unpack("<"+str(self.datSize)+"i", tempbytes)
         tempbytes = file.read(4 * self.datSize)
@@ -342,5 +342,5 @@ if __name__ == '__main__':
     s = f.readline().decode('utf-8')
     a = []
     b, a = preprocesser.clean(s)
-    print a
-    print b.encode("utf-8")
+    print(a)
+    print(b.encode("utf-8"))

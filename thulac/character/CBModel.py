@@ -1,5 +1,6 @@
 import struct
-
+import binascii
+import codecs
 
 class CBModel:
     DEC = 1000
@@ -53,9 +54,11 @@ class CBModel:
     
     def __init__(self, filename):
         inputfile = open(filename, "rb")
-        temp = inputfile.read(4).encode("hex")
+        temp = inputfile.read(4)
+        temp = codecs.decode(binascii.hexlify(temp))
         self.l_size = self.byteToInt(temp)
-        temp = inputfile.read(4).encode("hex")
+        temp = inputfile.read(4)
+        temp = codecs.decode(binascii.hexlify(temp))
         self.f_size = self.byteToInt(temp)
         
         # self.ll_weights = [0 for i in range(self.l_size * self.l_size)]
@@ -76,5 +79,5 @@ class CBModel:
 
 if __name__ == '__main__':
     mod = CBModel("cws_model.bin")
-    print len(mod.fl_weights)
+    print(len(mod.fl_weights))
 

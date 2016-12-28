@@ -18,14 +18,14 @@ class Postprocesser():
                 i += 1
                 continue
             tmpVec = []
-            for j in xrange(i + 1, len(sentence)):
+            for j in range(i + 1, len(sentence)):
                 tmp += sentence[j]
                 if(self.p_dat.getInfo(tmp) >= 0):
                     break
                 tmpVec.append(tmp)
             vecSize = len(tmpVec)
             
-            for k in xrange(vecSize-1, -1, -1):
+            for k in range(vecSize-1, -1, -1):
                 tmp = tmpVec[k]
                 if(self.p_dat.match(tmp) != -1):
                     sentence[i] = tmp
@@ -45,14 +45,14 @@ class Postprocesser():
                 continue
 
             tmpVec = []
-            for j in xrange(i+1, len(sentence)):
+            for j in range(i+1, len(sentence)):
                 tmp += sentence[j][0]
                 if(self.p_dat.getInfo(tmp) >= 0):
                     break
                 tmpVec.append(tmp)
             vecSize = len(tmpVec)
 
-            for k in xrange(vecSize-1, -1, -1):
+            for k in range(vecSize-1, -1, -1):
                 tmp = tmpVec[k]
                 if(self.p_dat.match(tmp) != -1):
                     sentence[i] = (tmp, '_', self.tag)

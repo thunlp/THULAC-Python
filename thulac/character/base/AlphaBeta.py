@@ -28,7 +28,7 @@ class AlphaBeta:
 
         # print nodeCount
         
-        for i in xrange(nodeCount):
+        for i in range(nodeCount):
             alphas.append({})
             # start = time.clock()
             pAllowedLabel = allowedLabelLists[i]
