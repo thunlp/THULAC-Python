@@ -138,7 +138,10 @@ class thulac:
             if(input_f is not None):
                 oiraw = self.getRaw(input_f)
             else:
-                oiraw = raw_input().strip()
+                if(self.version == 2):
+                    oiraw = raw_input().strip()
+                else:
+                    oiraw = input().strip()
             if(len(oiraw) < 1):
                 break
             if(self.seg_only):
