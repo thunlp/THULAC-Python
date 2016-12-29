@@ -123,8 +123,7 @@ class thulac:
                     self.myfilter.adjustTag(tagged)
                 self.nsDict.adjustTag(tagged)
                 self.idiomDict.adjustTag(tagged)
-                    
-                return list(map(lambda x: self.encode(x), segged))
+                return list(map(lambda x: self.encode("".join(x)), tagged))
         
     def run(self):
         start = time.clock()
