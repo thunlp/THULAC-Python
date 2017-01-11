@@ -1,7 +1,6 @@
 #coding = utf-8
 # from ..base import Dat
 import time
-import array
 
 class CBNGramFeature:
 
@@ -19,7 +18,7 @@ class CBNGramFeature:
         self.datSize = myDat.getDatSize()
         self.dat = myDat.getDat()
         self.model = model
-        self.maxLength = 10000
+        self.maxLength = 50000
         self.uniBases = [0 for i in range(self.maxLength + 2)]
         self.biBases = [0 for i in range(self.maxLength + 4)]
     

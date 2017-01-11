@@ -168,7 +168,7 @@ class Preprocesser:
                         hasSinglePun = False
                     else:  
                         senClean += sentence[i]
-                        graph.append(15)
+                        graph.append(9)
                 else:
                     senClean += sentence[i]
                     graph.append(15)

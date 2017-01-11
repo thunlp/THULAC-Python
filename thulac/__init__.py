@@ -1,4 +1,4 @@
-#coding = utf-8
+#coding:utf-8
 from .character.CBModel import CBModel
 from .character.CBNGramFeature import CBNGramFeature
 from .character.CBTaggingDecoder import CBTaggingDecoder
@@ -8,6 +8,7 @@ from .manage.Filter import Filter
 import time
 import os
 import sys
+import re
 
 class thulac:
     def __init__(self, args):
@@ -17,7 +18,7 @@ class thulac:
         self.useT2S = False
         self.seg_only = False
         self.useFilter = False
-        self.use_second = False
+        self.maxLength = 50000
         self.input_file = ""
         self.output_file = ""
         self.coding = "utf-8"
@@ -95,35 +96,47 @@ class thulac:
     def cut(self, oiraw):
         if(self.version == 2):
             oiraw = oiraw.decode(self.coding)
-        if(self.useT2S):
-            traw, poc_cands = self.preprocesser.clean(oiraw)
-            raw = self.preprocesser.T2S(traw)
+        vec = []
+        if(len(oiraw) < self.maxLength):
+            vec.append(oiraw)
         else:
-            raw, poc_cands = self.preprocesser.clean(oiraw)
-
-        if(len(raw) > 0):
-            if(self.seg_only):
-                tmp, tagged = self.cws_tagging_decoder.segmentTag(raw, poc_cands)
-                segged = self.cws_tagging_decoder.get_seg_result()
-                # if(self.userDict is not None):
-                    # self.userDict.adjustSeg(segged)
-                if(self.useFilter):
-                    self.myfilter.adjustSeg(segged)
-                self.nsDict.adjustSeg(segged)
-                self.idiomDict.adjustSeg(segged)
-                
-                return list(map(lambda x: self.encode(x), segged))
-                
+            vec = self.cutRaw(oiraw, self.maxLength)
+        ans = []
+        for oiraw in vec:
+            if(self.useT2S):
+                traw, poc_cands = self.preprocesser.clean(oiraw)
+                raw = self.preprocesser.T2S(traw)
             else:
-                tmp, tagged = self.tagging_decoder.segmentTag(raw, poc_cands)
+                raw, poc_cands = self.preprocesser.clean(oiraw)
 
-                # if(self.userDict is not None):
-                    # self.userDict.adjustTag(tagged)
-                if(self.useFilter):
-                    self.myfilter.adjustTag(tagged)
-                self.nsDict.adjustTag(tagged)
-                self.idiomDict.adjustTag(tagged)
-                return list(map(lambda x: self.encode("".join(x)), tagged))
+            if(len(raw) > 0):
+                if(self.seg_only):
+                    tmp, tagged = self.cws_tagging_decoder.segmentTag(raw, poc_cands)
+                    segged = self.cws_tagging_decoder.get_seg_result()
+                    # if(self.userDict is not None):
+                        # self.userDict.adjustSeg(segged)
+                    if(self.useFilter):
+                        self.myfilter.adjustSeg(segged)
+                    self.nsDict.adjustSeg(segged)
+                    self.idiomDict.adjustSeg(segged)
+                    ans.extend(segged)
+                    # return list(map(lambda x: self.encode(x), segged))
+                    
+                else:
+                    tmp, tagged = self.tagging_decoder.segmentTag(raw, poc_cands)
+
+                    # if(self.userDict is not None):
+                        # self.userDict.adjustTag(tagged)
+                    if(self.useFilter):
+                        self.myfilter.adjustTag(tagged)
+                    self.nsDict.adjustTag(tagged)
+                    self.idiomDict.adjustTag(tagged)
+                    ans.extend(tagged)
+                    # return list(map(lambda x: self.encode("".join(x)), tagged))
+        if(self.seg_only):
+            return list(map(lambda x: self.encode(x), ans))
+        else:
+            return list(map(lambda x: self.encode("".join(x)), ans))
         
     def run(self):
         start = time.clock()
@@ -163,6 +176,27 @@ class thulac:
 
     def getRaw(self, inputfile):
         return inputfile.readline().strip()
+
+    def cutRaw(self, oiraw, maxLength):
+        vec = []
+        m = re.findall(u".*?[。？！；;!?]", oiraw)
+        num = 0
+        l = 0
+        last = 0
+        for i in range(len(m)):
+            if(num + len(m[i]) > maxLength):
+                vec.append("".join(m[last:i]))
+                last = i
+                num = len(m[i])
+            else:
+                num += len(m[i])
+            l += len(m[i])
+        if(len(oiraw)-l + num > maxLength):
+            vec.append("".join(m[last:len(m)]))
+            vec.append(oiraw[l:])
+        else:
+            vec.append(oiraw[l-num:])
+        return vec
 
 
 # if __name__ == "__main__":

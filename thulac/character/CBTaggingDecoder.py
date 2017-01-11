@@ -11,7 +11,7 @@ import array
 class CBTaggingDecoder:
     def __init__(self):
         self.separator = '_'
-        self.maxLength = 10000
+        self.maxLength = 50000
         self.len = 0
         self.sequence = ""
         self.allowedLabelLists = []
