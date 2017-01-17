@@ -1,10 +1,10 @@
 #coding = utf-8
 from .CBModel import CBModel
 from .CBNGramFeature import CBNGramFeature
-from .base.Node import Node
-from .base.Dat import Dat
-from .base.WordWithTag import WordWithTag
-from .base.AlphaBeta import AlphaBeta
+from ..base.Node import Node
+from ..base.Dat import Dat
+from ..base.WordWithTag import WordWithTag
+from ..base.AlphaBeta import AlphaBeta
 import time
 import array
 
@@ -175,7 +175,7 @@ class CBTaggingDecoder:
         if(len(self.labelInfo[0]) < 2):
             return 1, []
         ts = []
-        # print self.result
+
         for i in range(self.len):
             if(i not in self.result):
                 self.result[i] = 0

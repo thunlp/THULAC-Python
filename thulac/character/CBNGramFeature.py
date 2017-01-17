@@ -34,10 +34,6 @@ class CBNGramFeature:
             tmp[1] += self.model.fl_weights[weightOffset + 1]
             tmp[2] += self.model.fl_weights[weightOffset + 2]
             tmp[3] += self.model.fl_weights[weightOffset + 3]
-            # self.values[valueOffset] += self.model.fl_weights[weightOffset]
-            # self.values[valueOffset + 1] += self.model.fl_weights[weightOffset + 1]
-            # self.values[valueOffset + 2] += self.model.fl_weights[weightOffset + 2]
-            # self.values[valueOffset + 3] += self.model.fl_weights[weightOffset + 3]
         else:
             for i in range(self.model.l_size):
                 self.values[valueOffset + i] += self.model.fl_weights[weightOffset + i]
@@ -62,12 +58,9 @@ class CBNGramFeature:
 
         ind = self.dat[2 * ch1] + ch2
         if(ind >= datSize or self.dat[2 * ind + 1] != ch1):
-            # biBase = -1
-            # result = (uniBase, -1)
             return uniBase, -1
 
         biBase = self.dat[2 * ind] + ord(self.SEPERATOR)
-        # result = (uniBase, biBase)
         return uniBase, biBase
 
     def putValues(self, sequence, mylen, values):
@@ -75,32 +68,18 @@ class CBNGramFeature:
             print("larger than max")
             return 1
 
-        # start = time.clock()
         self.values = values
         self.uniBases[0], self.biBases[0] = self.findBases(self.datSize, self.SENTENCE_BOUNDARY, self.SENTENCE_BOUNDARY)
-        # self.uniBases[0] = result[0]
-        # self.biBases[0] = result[1]
         
         self.uniBases[0], self.biBases[1] = self.findBases(self.datSize, self.SENTENCE_BOUNDARY, sequence[0])
-        # self.uniBases[0] = result[0]
-        # self.biBases[1] = result[1]
 
         for i in range(mylen - 1):
             self.uniBases[i + 1], self.biBases[i + 2] = self.findBases(self.datSize, sequence[i], sequence[i+1])
-            # self.uniBases[i+1] = result[0]
-            # self.biBases[i+2] = result[1]
 
         self.uniBases[mylen], self.biBases[mylen + 1] = self.findBases(self.datSize, sequence[mylen - 1], self.SENTENCE_BOUNDARY)
-        # self.uniBases[mylen] = result[0]
-        # self.biBases[mylen+1] = result[1]
         
         self.uniBases[mylen+1], self.biBases[mylen+2] = self.findBases(self.datSize, self.SENTENCE_BOUNDARY, self.SENTENCE_BOUNDARY)
-        # self.uniBases[mylen+1] = result[0]
-        # self.biBases[mylen+2] = result[1]
-        
-        # end = time.clock()
-        # print "FB Time used: %f s" % (end - start)
-        # start = time.clock()
+
         for i in range(mylen):
             tmp = [0, 0, 0, 0]
             valueOffset = i * self.model.l_size
@@ -122,7 +101,4 @@ class CBNGramFeature:
             self.values[valueOffset + 1] += tmp[1]
             self.values[valueOffset + 2] += tmp[2]
             self.values[valueOffset + 3] += tmp[3]
-
-        # end = time.clock()
-        # print "AV Time used: %f s" % (end - start)
         return 0

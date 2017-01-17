@@ -5,3 +5,4 @@ class WordWithTag:
 
     def __init__(self, separator):
         self.separator = separator
+

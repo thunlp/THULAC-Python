@@ -1,11 +1,26 @@
-from .base.Dat import Dat
-
+from ..base.Dat import Dat, DATMaker
+from ..base.compatibility import decode
 
 class Postprocesser():
 
     def __init__(self, filename, tag, isTxt):
+        if(not filename):
+            return None
         self.tag = tag
-        self.p_dat = Dat(filename)
+        if(isTxt):
+            lexicon = []
+            f = open(filename, "r")  
+            for i, line in enumerate(f):
+                line = line.split()
+                lexicon.append([decode(line[0]), i])
+            f.close()
+            dm = DATMaker()
+            dm.makeDat(lexicon, 0)
+            dm.shrink()
+            self.p_dat = Dat(datSize=dm.datSize, oldDat=dm.dat)
+
+        else:
+            self.p_dat = Dat(filename=filename)
 
 
     def adjustSeg(self, sentence):
@@ -20,6 +35,7 @@ class Postprocesser():
             tmpVec = []
             for j in range(i + 1, len(sentence)):
                 tmp += sentence[j]
+
                 if(self.p_dat.getInfo(tmp) >= 0):
                     break
                 tmpVec.append(tmp)
@@ -35,6 +51,7 @@ class Postprocesser():
 
 
     def adjustTag(self, sentence):
+        # print sentence
         if(self.p_dat is None):
             return
         i = 0
@@ -60,3 +77,7 @@ class Postprocesser():
                     # sentence[i][2] = self.tag;
                     break
             i+=1
+
+
+if __name__ == '__main__':
+    pp = Postprocesser("userwords.txt", "uw", True) 

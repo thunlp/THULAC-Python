@@ -25,12 +25,10 @@ class AlphaBeta:
         index = 0
         index2 = 0
         index3 = 0
-
-        # print nodeCount
         
         for i in range(nodeCount):
             alphas.append({})
-            # start = time.clock()
+
             pAllowedLabel = allowedLabelLists[i]
             for j in pAllowedLabel:
                 if(j == -1):
@@ -45,14 +43,14 @@ class AlphaBeta:
                         if(k not in alphas[nodeId]):
                             continue
                         preAlpha = alphas[nodeId][k]
-                        # print nodeId, k, preAlpha.nodeId
+
                         if(preAlpha[1] == -2):
                             continue
                         score = preAlpha[0] + llWeights[k*l_size + j]
-                        # print j, k, score
+
                         if((tmp[1] < 0) or (score > tmp[0])):
                             tmp = (score, nodeId, k)
-                # tmp = (tmp[0] + values[i*l_size + j], -1, tmp[2])
+
                 if((nodes[i].type == 1) or (nodes[i].type == 3)):
                     tmp = (tmp[0] + values[i*l_size + j], -1, tmp[2])
                 else:
@@ -60,7 +58,7 @@ class AlphaBeta:
                 if(nodes[i].type >= 2):
                     if((best[1] == -1) or best[0] < tmp[0]):
                         best = (tmp[0], i, j)
-                # print "%d %d %d %d %d" % (i, j, tmp.value, tmp.nodeId, tmp.labelId)
+
                 alphas[i][j] = tmp
         tmp = best
         while(tmp[1] >= 0):

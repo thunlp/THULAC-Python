@@ -145,11 +145,6 @@ class Preprocesser:
                     else:
                         hasSinglePun = False
 
-                # if(c == 41 or c == 65289):
-                #     if(hasAt):
-                #         npVec.append(npRaw)
-                #         npStartVec.append(npStart)
-                #         hasAt = False
                 if(c == 12299):
                     if(hasTitle):
                         titleVec.append(titleRaw)
@@ -168,77 +163,18 @@ class Preprocesser:
                         hasSinglePun = False
                     else:  
                         senClean += sentence[i]
-                        graph.append(9)
+                        graph.append(15)
                 else:
                     senClean += sentence[i]
                     graph.append(15)
                 hasSpace = False
                 hasOther = False
-
-            # if(self.isHttp(c)):
-            #     if(not hasHttp):
-            #         if(c == 'h'):
-            #             httpStart = len(graph) - 1
-            #             tmpRaw = []
-            #             tmpRaw.append(c)
-            #             hasHttp = True
-            #     else:
-            #         tmpRaw.append(c)
-            # else:
-            #     if(hasHttp):
-            #         httpVec.append(tmpRaw)
-            #         httpStartVec.append(httpStart)
-            #         hasHttp = False
-
-            # if(c == 64):
-            #     if(hasAt):
-            #         npVec.append(npRaw)
-            #         npStartVec.append(npStart)
-            #         npRaw = []
-            #     hasAt = True
-            #     npStart = len(graph)
-            #     npRaw = []
-            # elif(hasAt):
-            #     npRaw.append(c)
-
             if(c == 12298):
                 hasTitle = True
                 titleStart = len(graph)
                 titleRaw = []
             elif(hasTitle):
                 titleRaw.append(c)
-        # if(len(tmpRaw) != 0):
-        #     httpVec.append(tmpRaw)
-        #     httpStartVec.append(httpStart)
-        # if(len(npRaw) != 0):
-        #     npVec.append(npRaw)
-        #     npStartVec.append(npStart)
-
-        # tempstr = ""
-        # for i in range(len(httpVec)):
-        #     tempstr = "".join(httpVec[i])
-        #     found = tempstr.find("http")
-        #     if(found != -1):
-        #         start = httpStartVec[i]
-        #         size = len(tempstr)
-        #         # //std::cout<<std::endl<<sentence<<":Here:"<<str<<":"<<start<<":"<<size<<":"<<graph.size()<<std::endl;
-        #         graph[start] = 1
-        #         # for(int j = start + 1; j < start + size - 1; j ++){
-        #         for j in range(start+1, start + size - 1):
-        #             graph[j] = 2
-        #         graph[start + size - 1] = 4
-
-        # for i in range(len(npVec)):
-        #     npRaw = npVec[i]
-        #     if(len(npRaw) < 15):
-        #         start = npStartVec[i]
-        #         size = len(npRaw)
-
-        #         graph[start] = 1
-        #         # for(int j = start + 1; j < start + size - 1; j ++){
-        #         for j in range(start + 1, start + size -1):
-        #             graph[j] = 2
-        #         graph[start + size - 1] = 4
 
         for i in range(len(titleVec)):
             titleRaw = titleVec[i]

@@ -23,46 +23,73 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 
 ##编译和安装
 * python版(兼容python2.x版和python3.x版)
-		
-		将thulac放到目录下，通过 import thulac 来引用
+	1. 从github下载(需下载模型文件，见[获取模型](#获取模型))
+	
+		```
+		将thulac文件放到目录下，通过 import thulac 来引用
 		thulac需要模型的支持，需要将下载的模型放到thulac目录下。
+		```
+	2. pip下载(自带模型文件)
 		
+		```
+		sudo pip install thulac
+		通过 import thulac 来引用
+		```
+
 ##使用方式
 ###1.分词和词性标注程序
-####1.1.命令格式
+####1.1.接口使用示例
 * python版
-	
-	通过python程序`import thulac`，新建`thulac(args)`类，其中args为程序的参数。之后可以通过调用`thulac.run()`运行分词和词性标注程序；也可以通过调用`thulac.cut()`进行单句分词。
-	
-	代码示例
-		
-		import thulac
-		
-		thu1 = thulac.thulac("-seg_only")  #设置模式为行分词模式
-		thu1.run() #根据参数运行分词程序，从屏幕输入输出
-		print " ".join(thu1.cut("我爱北京天安门")) #进行一句话分词
-		#	==============================================
-		thu2 = thulac.thulac("-input cs.txt") #设置模式为分词和词性标注模式
-		thu2.run() #根据参数运行分词和词性标注程序，从cs.txt文件中读入，屏幕输出结果
-		print " ".join(thu2.cut("我爱北京天安门")) #进行一句话分词和词性标注
-		
 
-####1.2.通用参数
-	-t2s			    将句子从繁体转化为简体
-	-seg_only		    只进行分词，不进行词性标注
-	-deli delimeter		设置词与词性间的分隔符，默认为下划线_
-	-filter				使用过滤器去除一些没有意义的词语，例如“可以”。
-	-user userword.txt	设置用户词典，用户词典中的词会被打上uw标签。词典中每一个词一行，UTF8编码(python版暂无)
-	-model_dir dir		设置模型文件所在文件夹，默认为models/
-	
-####1.3.python版特有的参数
+	```
+	代码示例1
+	import thulac	
 
-	-input input_file	设置从文件读入，默认为命令行输入
-	-output output_file	设置输出到文件中，默认为命令行输出
+	thu1 = thulac.thulac()  #默认模式
+	text = thu1.cut("我爱北京天安门", text=True)  #进行一句话分词
+	print(text)
+	```
+	
+	```
+	代码示例2
+	thu1 = thulac.thulac(seg_only=True)  #只进行分词，不进行词性标注
+	thu1.cut_f("input.txt", "output.txt")  #对input.txt文件内容进行分词，输出到output.txt
+	```
+	
+####1.2.接口参数
+
+* `thulac(user_dict=None, model_path=None, T2S=False, seg_only=False, filt=False) `初始化程序，进行自定义设置
+
+	```
+	user_dict	      	设置用户词典，用户词典中的词会被打上uw标签。词典中每一个词一行，UTF8编码
+	T2S					默认False, 是否将句子从繁体转化为简体
+	seg_only	   		默认False, 时候只进行分词，不进行词性标注
+	filt		   		默认False, 是否使用过滤器去除一些没有意义的词语，例如“可以”。
+	model_path	 	    设置模型文件所在文件夹，默认为models/
+	```
+	
+* `cut(文本, text=False)` 对一句话进行分词
+
+	```
+	text 				默认为False, 是否返回文本，不返回文本则返回一个二维数组([[word, tag]..]),tag_only模式下tag为空字符。
+	```
+
+* `cut_f(输入文件, 输出文件)` 对文件进行分词
+
+* `run()` 命令行交互式分词(屏幕输入、屏幕输出)
+
+####1.3.命令行运行(限pip安装使用)
+直接调用
+
+	python -m thulac input.txt output.txt
+	#从input.txt读入，并将分词和词性标注结果输出到ouptut.txt中
+
+	#如果只需要分词功能，可在增加参数"seg_only" 
+	python -m thulac input.txt output.txt seg_only
 
 ###2.获取模型
 
-THULAC需要分词和词性标注模型的支持，获取下载好的模型用户可以登录[thulac.thunlp.org](http://thulac.thunlp.org)网站填写个人信息进行下载，并放到THULAC的根目录即可，或者使用参数`-model_dir dir`指定模型的位置。
+THULAC需要分词和词性标注模型的支持，获取下载好的模型用户可以登录[thulac.thunlp.org](http://thulac.thunlp.org)网站填写个人信息进行下载，并放到THULAC的根目录即可，或者使用参数`model_path`指定模型的位置。
 
 ##代表分词软件的性能对比
 我们选择LTP、ICTCLAS、结巴分词等国内代表分词软件与THULAC做性能比较。我们选择Windows作为测试环境，根据第二届国际汉语分词测评发布的国际中文分词测评标准，对不同软件进行了速度和准确率测试。
@@ -102,13 +129,12 @@ CNKI_journal.txt（51 MB）
 
 
 ##词性解释
-	n/名词 np/人名 ns/地名 ni/机构名 nz/其它专名
-	m/数词 q/量词 mq/数量词 t/时间词 f/方位词 s/处所词
-	v/动词 vm/能愿动词 vd/趋向动词 a/形容词 d/副词
-	h/前接成分 k/后接成分 i/习语 j/简称
-	r/代词 c/连词 p/介词 u/助词 y/语气助词
-	e/叹词 o/拟声词 g/语素 w/标点 x/其它 
-	
+n/名词 np/人名 ns/地名 ni/机构名 nz/其它专名
+m/数词 q/量词 mq/数量词 t/时间词 f/方位词 s/处所词
+v/动词 a/形容词 d/副词 h/前接成分 k/后接成分 
+i/习语 j/简称 r/代词 c/连词 p/介词 u/助词 y/语气助词
+e/叹词 o/拟声词 g/语素 w/标点 x/其它 
+
 ##THULAC模型介绍
 1. 我们随THULAC源代码附带了简单的分词模型Model_1，仅支持分词功能。该模型由人民日报分词语料库训练得到。
 
@@ -136,6 +162,7 @@ CNKI_journal.txt（51 MB）
 
 |更新时间 | 更新内容|
 |:------------|:-------------:| 
+|2017-01-17| 在pip上发布THULAC分词python版本。|
 |2016-09-29| 增加THULAC分词so版本。|
 |2016-03-31| 增加THULAC分词python版本。|
 |2016-01-20| 增加THULAC分词Java版本。|
@@ -147,16 +174,17 @@ CNKI_journal.txt（51 MB）
 2. 如有机构或个人拟将THULAC用于商业目的，请发邮件至thunlp@gmail.com洽谈技术许可协议。
 3. 欢迎对该工具包提出任何宝贵意见和建议。请发邮件至thunlp@gmail.com。
 4. 如果您在THULAC基础上发表论文或取得科研成果，请您在发表论文和申报成果时声明“使用了清华大学THULAC”，并按如下格式引用：
-	
-	* **中文： 孙茂松, 陈新雄, 张开旭, 郭志芃, 刘知远. THULAC：一个高效的中文词法分析工具包. 2016.**
-	
-	* **英文： Maosong Sun, Xinxiong Chen, Kaixu Zhang, Zhipeng Guo, Zhiyuan Liu. THULAC: An Efficient Lexical Analyzer for Chinese. 2016.**
-		
-   
+
+* **中文： 孙茂松, 陈新雄, 张开旭, 郭志芃, 刘知远. THULAC：一个高效的中文词法分析工具包. 2016.**
+
+* **英文： Maosong Sun, Xinxiong Chen, Kaixu Zhang, Zhipeng Guo, Zhiyuan Liu. THULAC: An Efficient Lexical Analyzer for Chinese. 2016.**
+
+
 ##相关论文
 * Zhongguo Li, Maosong Sun. Punctuation as Implicit Annotations for Chinese Word Segmentation. Computational Linguistics, vol. 35, no. 4, pp. 505-512, 2009.
 
-   
+
 ##作者
 
-Maosong Sun （孙茂松，导师）,  Xinxiong Chen（陈新雄，博士生）,  Kaixu Zhang (张开旭，硕士生）,  Zhipeng Guo（郭志芃，本科生）,  Zhiyuan Liu（刘知远，助理教授）.
+[Maosong Sun](http://www.thunlp.org/site2/index.php/zh/people?id=16) （孙茂松，导师）,  Xinxiong Chen（陈新雄，博士生）,  Kaixu Zhang (张开旭，硕士生）,  Zhipeng Guo（郭志芃，本科生）, Junhua Ma (马骏骅，访问学生),  Zhiyuan Liu（刘知远，助理教授）.
+
