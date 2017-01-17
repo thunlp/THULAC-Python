@@ -23,7 +23,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 
 ##编译和安装
 * python版(兼容python2.x版和python3.x版)
-	1. 从github下载(需下载模型文件，见[获取模型](#获取模型))
+	1. 从github下载(需下载模型文件，见[获取模型](#2.获取模型))
 	
 		```
 		将thulac文件放到目录下，通过 import thulac 来引用
@@ -186,5 +186,5 @@ e/叹词 o/拟声词 g/语素 w/标点 x/其它
 
 ##作者
 
-[Maosong Sun](http://www.thunlp.org/site2/index.php/zh/people?id=16) （孙茂松，导师）,  Xinxiong Chen（陈新雄，博士生）,  Kaixu Zhang (张开旭，硕士生）,  Zhipeng Guo（郭志芃，本科生）, Junhua Ma (马骏骅，访问学生),  Zhiyuan Liu（刘知远，助理教授）.
+[Maosong Sun](http://www.thunlp.org/site2/index.php/zh/people?id=16) （孙茂松，导师）,  Xinxiong Chen（陈新雄，博士生）,  Kaixu Zhang (张开旭，硕士生）,  Zhipeng Guo（郭志芃，本科生）, Junhua Ma （马骏骅，访问学生）,  [Zhiyuan Liu](http://www.thunlp.org/~lzy/)（刘知远，助理教授）.
 
