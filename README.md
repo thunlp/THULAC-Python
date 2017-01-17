@@ -23,7 +23,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 
 ##编译和安装
 * python版(兼容python2.x版和python3.x版)
-	1. 从github下载(需下载模型文件，见[获取模型](#2.获取模型))
+	1. 从github下载(需下载模型文件，见[获取模型](#2获取模型))
 	
 		```
 		将thulac文件放到目录下，通过 import thulac 来引用
@@ -129,11 +129,14 @@ CNKI_journal.txt（51 MB）
 
 
 ##词性解释
+
+```
 n/名词 np/人名 ns/地名 ni/机构名 nz/其它专名
 m/数词 q/量词 mq/数量词 t/时间词 f/方位词 s/处所词
 v/动词 a/形容词 d/副词 h/前接成分 k/后接成分 
 i/习语 j/简称 r/代词 c/连词 p/介词 u/助词 y/语气助词
 e/叹词 o/拟声词 g/语素 w/标点 x/其它 
+```
 
 ##THULAC模型介绍
 1. 我们随THULAC源代码附带了简单的分词模型Model_1，仅支持分词功能。该模型由人民日报分词语料库训练得到。
