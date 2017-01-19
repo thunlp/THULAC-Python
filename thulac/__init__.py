@@ -15,10 +15,10 @@ import re
 
 class thulac:
     def __init__(self, user_dict = None, model_path = None, T2S = False, \
-                 seg_only = False, filt = False, maxLength = 50000):
+                 seg_only = False, filt = False, maxLength = 50000, deli='_'):
         self.user_specified_dict_name = user_dict
         self.model_path_char = model_path
-        self.separator = '_'
+        self.separator = deli
         self.useT2S = T2S
         self.seg_only = seg_only
         self.useFilter = filt
