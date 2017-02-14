@@ -10,6 +10,8 @@ class Punctuation():
 			return
 		tmpVec = []
 		for i in range(len(sentence)):
+			if(i>=len(sentence)):
+				break
 			tmp = sentence[i]
 			if(self.__pDat.getInfo(tmp) >= 0):
 				continue
@@ -36,6 +38,8 @@ class Punctuation():
 		tmpVec = []
 		findMulti = False
 		for i in range(len(sentence)):
+			if (i >= len(sentence)):
+				break
 			tmp = sentence[i][0]
 			if(self.__pDat.getInfo(tmp) >= 0):
 				continue
