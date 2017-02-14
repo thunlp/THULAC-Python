@@ -182,6 +182,9 @@ class Preprocesser:
                 start = titleStartVec[i]
                 size = len(titleRaw)
                 # print sentence + ":Here" + str(titleRaw) + ":" + str(start) + ":" + str(size) + ":" + str(len(graph))
+                if(len(titleRaw) == 1):
+                    graph[start] =  9
+                    continue    
                 graph[start] = 1
                 for j in range(start + 1, start + size - 1):
                     graph[j] = 2
