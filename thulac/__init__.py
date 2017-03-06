@@ -7,6 +7,7 @@ from .manage.Postprocesser import Postprocesser
 from .manage.Filter import Filter
 from .manage.TimeWord import TimeWord
 from .manage.Punctuation import Punctuation
+from .manage.SoExtention import *
 from .base.compatibility import decode, cInput, encode
 from functools import reduce 
 import time
@@ -40,6 +41,7 @@ class thulac:
         self.timeword = TimeWord()
         self.punctuation = Punctuation(self.prefix+"singlepun.dat")
         self.myfilter = None
+        self.so = None
 
         if(self.user_specified_dict_name):
             self.userDict = Postprocesser(self.user_specified_dict_name, "uw", True)
@@ -68,16 +70,16 @@ class thulac:
             prefix = os.path.dirname(os.path.realpath(__file__))+"/models/"
         return prefix
 
-    def cut(self, oiraw, text=False):
+    def cutWithOutMethod(self, oiraw, cut_method, text = True):
         oiraw = oiraw.split('\n')
         txt = ""
         array = []
         if(text):
             for line in oiraw:
                 if(line):
-                    txt += reduce(lambda x, y: x + ' ' + y, self.cutline(line)) + '\n'
+                    txt += reduce(lambda x, y: x + ' ' + y, cut_method(line)) + '\n'
                 else:
-                    txt += reduce(lambda x, y: x + ' ' + y, self.cutline(line), '') + '\n'
+                    txt += reduce(lambda x, y: x + ' ' + y, cut_method(line), '') + '\n'
             if(txt[-1] == '\n'):
                 return txt[:-1] #去掉最后一行的\n
             return txt
@@ -85,14 +87,20 @@ class thulac:
             for line in oiraw:
                 if(line):
                     if(self.seg_only):
-                        array += (reduce(lambda x, y: x + [[y, '']], self.cutline(line), []))
+                        array += (reduce(lambda x, y: x + [[y, '']], cut_method(line), []))
                     else:
-                        array += (reduce(lambda x, y: x + [y.split(self.separator)], self.cutline(line), []))
+                        array += (reduce(lambda x, y: x + [y.split(self.separator)], cut_method(line), []))
                 array += [['\n', '']]
             return array[:-1]
 
+    def cut(self, oiraw, text = False):
+        return self.cutWithOutMethod(oiraw, self.cutline, text = text)
+
+    def fast_cut(self, oiraw, text = False):
+        return self.cutWithOutMethod(oiraw, self.fast_cutline, text = text)
+
     def cutline(self, oiraw):
-        oiraw = decode(oiraw, coding=self.coding)
+        oiraw = decode(oiraw, coding = self.coding)
         vec = []
         if(len(oiraw) < self.maxLength):
             vec.append(oiraw)
@@ -137,25 +145,44 @@ class thulac:
         else:
             return map(lambda x: encode("".join(x)), ans)
         
+
+    def SoInit(self):
+        if(not self.user_specified_dict_name):
+            self.user_specified_dict_name = ''
+        return SoExtention(self.prefix, self.user_specified_dict_name, self.useT2S, self.seg_only)
+
+    def fast_cutline(self, oiraw):
+        self.so = self.SoInit()
+        result = self.so.seg(oiraw)
+        return result.split()
+
     def run(self):
         while(True):
             oiraw = cInput()
             if(len(oiraw) < 1):
                 break
-            cutted = self.cut(oiraw, text=True)
+            cutted = self.cut(oiraw, text = True)
             print(cutted)
             
     def cut_f(self, input_file, output_file):
         input_f = open(input_file, 'r')
         output_f = open(output_file, 'w')
-        while(True):
-            oiraw = self.getRaw(input_f)
-            if(len(oiraw) < 1):
-                break
-            cutted = self.cut(oiraw, text=True)
-            output_f.write(cutted + '\n')
+        for oiraw in input_f.readlines():
+            cutted = self.cut(oiraw, text = True)
+            output_f.write(cutted)
 
         output_f.close()
+        print("successfully cut file " + input_file + "!")
+
+    def fast_cut_f(self, input_file, output_file):
+        input_f = open(input_file, 'r')
+        output_f = open(output_file, 'w')
+        self.so = self.SoInit()
+        for oiraw in input_f.readlines():
+            cutted = self.so.seg(oiraw)
+            output_f.write(cutted + '\n')
+        output_f.close()
+        self.so.clear()
         print("successfully cut file " + input_file + "!")
 
     def getRaw(self, inputfile):
