@@ -61,7 +61,7 @@ class Dat:
         base = 0
         for i in range(len(word)):
             ind = self.dat[2 * ind] + ord(word[i])
-            if((ind > self.datSize) or (self.dat[2 * ind + 1] != base)):
+            if((ind >= self.datSize) or (self.dat[2 * ind + 1] != base)):
                 return -1
             base = ind
         ind = self.dat[2 * base]
