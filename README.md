@@ -36,7 +36,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 		通过 import thulac 来引用
 		```
 
-##使用方式(新增[fast接口](#1.4.fast接口))
+##使用方式(新增[fast接口](#1.4fast接口))
 ###1.分词和词性标注程序
 ####1.1.接口使用示例
 * python版
