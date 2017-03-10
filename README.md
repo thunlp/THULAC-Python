@@ -36,7 +36,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 		通过 import thulac 来引用
 		```
 
-##使用方式
+##使用方式(新增[fast接口](#1.4.fast接口))
 ###1.分词和词性标注程序
 ####1.1.接口使用示例
 * python版
@@ -87,6 +87,15 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 
 	#如果只需要分词功能，可在增加参数"seg_only" 
 	python -m thulac input.txt output.txt seg_only
+
+####1.4.fast接口
+(请[下载](https://github.com/thunlp/THULAC.so)make后将得到的libthulac.so放入models文件夹同目录下)
+
+有两个函数实现了fast接口，仅函数名改变，参数使用同普通函数
+```
+cut -> fast_cut, cut_f -> fast_cut_f
+```
+
 
 ###2.获取模型
 
