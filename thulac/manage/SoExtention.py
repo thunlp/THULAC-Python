@@ -8,12 +8,13 @@ import platform
 class SoExtention:
     def __init__(self, model_path, user_dict_path, t2s, just_seg):
         root = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) #设置so文件的位置
-        if(platform.system() == "Darwin"):
-            self._lib = cdll.LoadLibrary(root+'/macos_lib.so') #读取so文件
-        elif(platform.system() == "Linux"):
-            self._lib = cdll.LoadLibrary(root+'/linux_lib.so') #读取so文件
-        else:
-            print("没有合适当前系统的.so文件，请使用普通分词方法")
+        # if(platform.system() == "Darwin"):
+        #     self._lib = cdll.LoadLibrary(root+'/macos_lib.so') #读取so文件
+        # elif(platform.system() == "Linux"):
+        #     self._lib = cdll.LoadLibrary(root+'/linux_lib.so') #读取so文件
+        # else:
+        #     print("没有合适当前系统的.so文件，请使用普通分词方法")
+        self._lib = cdll.LoadLibrary(root+'/libthulac.so') #读取so文件
         self._lib.init(c_char_p(model_path), c_char_p(user_dict_path), int(t2s), int(just_seg)) #调用接口进行初始化
 
     def clear(self):
