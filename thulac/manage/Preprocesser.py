@@ -1,4 +1,4 @@
-# coding = utf-8
+#coding: utf-8
 import os
 import struct
 
@@ -210,28 +210,28 @@ class Preprocesser:
 
     def getT2S(self, c):
         if(c in self.t2s):
-            return t2s[c]
+            return self.t2s[c]
         else:
             return c
 
     def getS2T(self, c):
         if(c in self.s2t):
-            return s2t[c]
+            return self.s2t[c]
         else:
             return c
 
     def T2S(self, sentence):
         newSentence = ""
-        for i in range(sentence):
-            newSentence += str(getT2S(sentence[i]))
+        for w in sentence:
+            newSentence += self.getT2S(w)
         return newSentence
     
     def S2T(self, sentence, oriSentence):
         count = 0
-        for i in range(len(sentence)):
-            for j in range(len(sentence[i].word)):
-                sentence[i].word = sentence[i].word[0, j-1]+oriSentence[count] \
-                        + sentence[i].word[j+1:]
+        for w in sentence:
+            for j in range(len(w.word)):
+                w.word = w.word[0, j-1]+oriSentence[count] \
+                        + w.word[j+1:]
                 count = count + 1
 
     def cleanSpace(self, sentence, senClean, graph):

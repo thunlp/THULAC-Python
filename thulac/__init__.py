@@ -47,13 +47,13 @@ class thulac:
             self.__cws_tagging_decoder = CBTaggingDecoder()
             self.__cws_tagging_decoder.init((self.__prefix+"cws_model.bin"), (self.__prefix+"cws_dat.bin"),(self.__prefix+"cws_label.txt"))
             self.__cws_tagging_decoder.threshold = 0
-            self.__cws_tagging_decoder.__separator = self.__separator
+            self.__cws_tagging_decoder.separator = self.__separator
             self.__cws_tagging_decoder.setLabelTrans()
         else:
             self.__tagging_decoder = CBTaggingDecoder()
             self.__tagging_decoder.init((self.__prefix+"model_c_model.bin"),(self.__prefix+"model_c_dat.bin"),(self.__prefix+"model_c_label.txt"))
             self.__tagging_decoder.threshold = 10000
-            self.__tagging_decoder.__separator = self.__separator
+            self.__tagging_decoder.separator = self.__separator
             self.__tagging_decoder.setLabelTrans()
 
     def __setPrefix(self):
@@ -173,12 +173,11 @@ class thulac:
     def fast_cut_f(self, input_file, output_file):
         input_f = open(input_file, 'r')
         output_f = open(output_file, 'w')
-        self.__so = self.__SoInit()
+        
         for oiraw in input_f.readlines():
-            cutted = self.__so.seg(oiraw)
-            output_f.write(cutted + '\n')
+            cutted = self.fast_cut(oiraw, text = True)
+            output_f.write(cutted)
         output_f.close()
-        self.__so.clear()
         print("successfully cut file " + input_file + "!")
 
     def __cutRaw(self, oiraw, maxLength):
