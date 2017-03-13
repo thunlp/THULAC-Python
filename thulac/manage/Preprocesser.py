@@ -209,8 +209,8 @@ class Preprocesser:
             return True
 
     def getT2S(self, c):
-        if(c in self.t2s):
-            return self.t2s[c]
+        if(ord(c) in self.t2s):
+            return unichr(self.t2s[ord(c)])
         else:
             return c
 
