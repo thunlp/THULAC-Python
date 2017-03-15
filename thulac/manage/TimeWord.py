@@ -157,25 +157,4 @@ class TimeWord():
                     sentence[i].tag = "np"
 
         del word[:]
-
-
-if __name__ == '__main__':
-    class WordWithTag:
-        word = []
-        tag = ""
-
-        def __init__(self, word, tag):
-            self.word = word
-            self.tag = tag
-    time = b = [ord(i) for i in "1988".decode('utf-8')]
-    year = [ord("年".decode('utf-8'))]
-    # print time
-    a = [([ord(i) for i in "1988".decode('utf-8')], '_', 'n'), ([ord("年".decode('utf-8'))], '_', 'n')]
-    # b = [ord(i) for i in "月".decode('utf-8')]
-    tw = TimeWord()
-    # for i in '月亮'.decode('utf-8'):
-    #   print ord(i)
-    tw.adjustTag(a)
-    for i in a:
-        print(i)
         

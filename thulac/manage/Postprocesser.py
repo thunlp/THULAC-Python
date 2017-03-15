@@ -1,8 +1,9 @@
 from ..base.Dat import Dat, DATMaker
-from ..base.compatibility import decode
+from ..base.compatibility import decodeGenerator
+
+decode = decodeGenerator()
 
 class Postprocesser():
-
     def __init__(self, filename, tag, isTxt):
         if(not filename):
             return None

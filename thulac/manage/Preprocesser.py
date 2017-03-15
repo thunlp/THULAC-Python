@@ -1,7 +1,9 @@
 #coding: utf-8
 import os
 import struct
+from ..base.compatibility import chrGenerator
 
+chr = chrGenerator()
 
 class Preprocesser:
     def __init__(self):
@@ -210,7 +212,7 @@ class Preprocesser:
 
     def getT2S(self, c):
         if(ord(c) in self.t2s):
-            return unichr(self.t2s[ord(c)])
+            return chr(self.t2s[ord(c)])
         else:
             return c
 
@@ -273,13 +275,3 @@ class Preprocesser:
             else:
                 graph[-1] = 4
         return graph
-
-if __name__ == '__main__':
-    preprocesser = Preprocesser()
-    preprocesser.setT2SMap("t2s.dat")
-    f = open("cs.txt", "r")
-    s = f.readline().decode('utf-8')
-    a = []
-    b, a = preprocesser.clean(s)
-    print(a)
-    print(b.encode("utf-8"))

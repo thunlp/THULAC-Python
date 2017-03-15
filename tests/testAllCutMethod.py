@@ -12,7 +12,7 @@ def readFile(file_name):
 
 def testCutFile():
     thu.cut_f(prefix +"/textForTest/input.txt", prefix +"/textForTest/output.txt")
-    print readFile(prefix +"/textForTest/output.txt")
+    print(readFile(prefix +"/textForTest/output.txt"))
     assert readFile(prefix + "/textForTest/output.txt") == "我 爱 北京 天安门"
 
 def testFastCut():
@@ -22,5 +22,5 @@ def testFastCut():
 
 def testFastCutFile():
     thu.fast_cut_f(prefix +"/textForTest/input.txt", prefix +"/textForTest/output.txt")
-    print readFile(prefix +"/textForTest/output.txt")
+    print(readFile(prefix +"/textForTest/output.txt"))
     assert readFile(prefix +"/textForTest/output.txt") == "我 爱 北京 天安门"

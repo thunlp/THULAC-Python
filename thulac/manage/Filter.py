@@ -6,12 +6,8 @@ class Filter:
         self.xu_dat = Dat(xuWordFile)
         self.time_dat = Dat(timeWordFile)
         self.posSet = ["n","np","ns","ni","nz","v","a","id","t","uw"]
-        self.arabicNumSet = []
+        self.arabicNumSet = [i for i in range(48, 58)] +[i for i in range(65296, 65306)]
         self.chineseNumSet = [12295,19968,20108,19977,22235,20116,20845,19971,20843,20061]
-        for i in range(48, 58):
-            self.arabicNumSet.append(i)
-        for i in range(65296, 65306):
-            self.arabicNumSet.append(i)
 
     def adjustSeg(self, sentence):
         if((self.xu_dat is None) or (self.time_dat is None)):

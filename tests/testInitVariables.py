@@ -26,13 +26,13 @@ def testT2S():
 	test_text = "我愛北京天安門"
 	thu = thulac.thulac(seg_only = True, T2S = True)
 	gold = thu.cut(test_text, text = True)
-	print gold
+	print(gold)
 	assert gold == "我 爱 北京 天安门"
 
 def testFilt():
 	test_text = "我可以爱北京天安门"
 	thu = thulac.thulac(seg_only = True, filt = True)
 	gold = thu.cut(test_text, text = True)
-	print gold
+	print(gold)
 	assert gold == "我 爱 北京 天安门"
 

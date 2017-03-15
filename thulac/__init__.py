@@ -8,11 +8,15 @@ from .manage.Filter import Filter
 from .manage.TimeWord import TimeWord
 from .manage.Punctuation import Punctuation
 from .manage.SoExtention import *
-from .base.compatibility import decode, cInput, encode
+from .base.compatibility import decodeGenerator, cInputGenerator, encodeGenerator
 from functools import reduce 
 import time
 import os
 import re
+
+decode = decodeGenerator()
+cInput = cInputGenerator()
+encode = encodeGenerator()
 
 class thulac:
     def __init__(self, user_dict = None, model_path = None, T2S = False, \
@@ -72,13 +76,9 @@ class thulac:
         array = []
         if(text):
             for line in oiraw:
-                if(line):
-                    txt += reduce(lambda x, y: x + ' ' + y, cut_method(line)) + '\n'
-                else:
-                    txt += reduce(lambda x, y: x + ' ' + y, cut_method(line), '') + '\n'
-            if(txt[-1] == '\n'):
-                return txt[:-1] #去掉最后一行的\n
-            return txt
+                temp_txt = reduce(lambda x, y: x + ' ' + y, cut_method(line), '') + '\n'
+                txt += temp_txt[1:]
+            return txt[:-1]
         else:
             for line in oiraw:
                 if(line):
@@ -96,7 +96,7 @@ class thulac:
         return self.__cutWithOutMethod(oiraw, self.__fast_cutline, text = text)
 
     def __cutline(self, oiraw):
-        oiraw = decode(oiraw, coding = self.__coding)
+        oiraw = decode(oiraw)
         vec = []
         if(len(oiraw) < self.__maxLength):
             vec.append(oiraw)

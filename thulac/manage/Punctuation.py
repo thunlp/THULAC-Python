@@ -65,28 +65,3 @@ class Punctuation():
 				if(self.__pDat.match(sentence[i][0]) != -1):
 					sentence[i] = (sentence[i][0], sentence[i][1], 'w')
 			del tmpVec[:]
-
-
-if __name__ == '__main__':
-	class WordWithTag:
-		word = []
-		tag = ""
-
-		def __init__(self, word, tag):
-			self.word = word
-			self.tag = tag
-
-
-	time = b = [i for i in "1988".decode('utf-8')]
-	year = ["年".decode('utf-8')]
-	dot1 = [".".decode('utf-8')]
-	dot2 = [".".decode('utf-8')]
-	dot3 = [".".decode('utf-8')]
-	# print time
-	a = [[".".decode('utf-8')], [".".decode('utf-8')],WordWithTag(dot1, 'n'),WordWithTag(dot2, 'n'),WordWithTag(dot3, 'n')]
-	# b = [ord(i) for i in "月".decode('utf-8')]
-	pun = Punctuation('../models/singlepun.dat')
-	# for i in '月亮'.decode('utf-8'):
-	#   print ord(i)
-	pun.adjustTag(a)
-	print(a)
