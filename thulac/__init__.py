@@ -18,9 +18,12 @@ decode = decodeGenerator()
 cInput = cInputGenerator()
 encode = encodeGenerator()
 
+'''程序入口，提供所有面向用户的接口'''
 class thulac:
     def __init__(self, user_dict = None, model_path = None, T2S = False, \
                  seg_only = False, filt = False, max_length = 50000, deli='_'):
+        '''初始化函数，传入用户设置的参数，并且根据参数初始化不同
+        模型（调入不同的.dat文件，该文件存储了一个双数组trie树）'''
         self.__user_specified_dict_name = user_dict
         self.__model_path_char = model_path
         self.__separator = deli
@@ -61,6 +64,7 @@ class thulac:
             self.__tagging_decoder.setLabelTrans()
 
     def __setPrefix(self):
+        '''获取程序运行的路径，以此来确定models的绝对路径以及其他资源文件的路径'''
         __prefix = ""
         if(self.__model_path_char is not None):
             __prefix = self.__model_path_char
@@ -71,6 +75,9 @@ class thulac:
         return __prefix
 
     def __cutWithOutMethod(self, oiraw, cut_method, text = True):
+        '''分词，先将原始句子split为一个数组，之后遍历每一行，调用对单行分词的函数（有两种）。
+        text=True会返回分词好的字符串，为False则会返回一个二位数组方便用户做后续处理。
+        函数中有一些细节处理主要是用于规范输出格式'''
         oiraw = oiraw.split('\n')
         txt = ""
         array = []
@@ -96,6 +103,7 @@ class thulac:
         return self.__cutWithOutMethod(oiraw, self.__fast_cutline, text = text)
 
     def __cutline(self, oiraw):
+        '''对单行进行分词，这段函数包含前处理preprogress.py以及一系列后处理，将分词结果返回为一个map'''
         oiraw = decode(oiraw)
         vec = []
         if(len(oiraw) < self.__maxLength):
@@ -143,6 +151,7 @@ class thulac:
         
 
     def __SoInit(self):
+        '''fast_cut函数需要使用thulac.so，在这里导入.so文件'''
         if(not self.__user_specified_dict_name):
             self.__user_specified_dict_name = ''
         return SoExtention(self.__prefix, self.__user_specified_dict_name, self.__useT2S, self.__seg_only)
@@ -153,6 +162,7 @@ class thulac:
         return result.split()
 
     def run(self):
+        '''命令行交互程序'''
         while(True):
             oiraw = cInput()
             if(len(oiraw) < 1):
@@ -165,7 +175,7 @@ class thulac:
         output_f = open(output_file, 'w')
         for oiraw in input_f.readlines():
             cutted = self.cut(oiraw, text = True)
-            output_f.write(cutted)
+            output_f.write(cutted + "\n")
 
         output_f.close()
         print("successfully cut file " + input_file + "!")
@@ -176,11 +186,13 @@ class thulac:
         
         for oiraw in input_f.readlines():
             cutted = self.fast_cut(oiraw, text = True)
-            output_f.write(cutted)
+            output_f.write(cutted + "\n")
         output_f.close()
         print("successfully cut file " + input_file + "!")
 
     def __cutRaw(self, oiraw, maxLength):
+        '''现将句子按句子完结符号切分，如果切分完后一个句子长度超过限定值
+        ，再对该句子进行切分'''
         vec = []
         m = re.findall(u".*?[。？！；;!?]", oiraw)
         num, l, last = 0, 0, 0
