@@ -6,12 +6,13 @@ from ..base.compatibility import chrGenerator
 chr = chrGenerator()
 
 class Preprocesser:
-    def __init__(self):
+    def __init__(self, rm_space=False):
         self.otherSet = []
         self.singlePunSet = []
         self.httpSet = []
         self.t2s = {}
         self.s2t = {}
+        self.rmSpace = rm_space
         for i in range(65, 91):
             self.otherSet.append(i)
             self.httpSet.append(i)
@@ -25,14 +26,14 @@ class Preprocesser:
                 8217, 8220, 8221, 12304, 12305, \
                 12289, 12298, 12299, 126, 183, 64, 124, 35, 65509, 37, 8230, 38, 42, 65288, \
                 65289, 8212, 45, 43, 61, 44, 46, 60, 62, 63, 47, 33, 59, 58, 39, 34, 123, 125, \
-                91, 93, 92, 124, 35, 36, 37, 94, 38, 42, 40, 41, 95, 45, 43, 61, 9700, 9734, 9733]
+                91, 93, 92, 124, 35, 36, 37, 94, 38, 42, 40, 41, 95, 45, 43, 61, 9700, 9734, 9733, 32, 12288]
         templen = 63
         for i in range(templen):
             self.otherSet.append(other[i])
 
         singlePun = [65292, 12290, 65311, 65281, 65306, 65307, 8216, 8217, 8220, 8221, 1230, 12304, \
                     12305, 12289, 12298, 12299, 64,35, 65288, 65289, 34, 91, 93, 126, 47, 44, 58, \
-                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41, 59, 61]
+                    63, 9700, 9734, 9733, 8230, 39, 33, 42, 43, 62, 40, 41, 59, 61, 32, 12288]
         templen = 41
         for i in range(templen):
             self.singlePunSet.append(singlePun[i])
@@ -104,6 +105,9 @@ class Preprocesser:
                         o = graph[-1] & 12
                         graph[-1] = o
                     hasSpace = True
+                    if(not self.rmSpace):
+                        senClean += sentence[i]
+                        graph.append(9)
                     continue
 
                 # if(hasAt):

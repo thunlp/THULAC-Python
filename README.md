@@ -67,6 +67,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 	filt		   		默认False, 是否使用过滤器去除一些没有意义的词语，例如“可以”。
 	model_path	 	    设置模型文件所在文件夹，默认为models/
 	deli	 	      	默认为‘_’, 设置词与词性之间的分隔符
+    rm_space            默认为True, 是否去掉原文本中的空格后再进行分词
 	```
 	
 * `cut(文本, text=False)` 对一句话进行分词

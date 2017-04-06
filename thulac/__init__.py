@@ -21,7 +21,7 @@ encode = encodeGenerator()
 '''程序入口，提供所有面向用户的接口'''
 class thulac:
     def __init__(self, user_dict = None, model_path = None, T2S = False, \
-                 seg_only = False, filt = False, max_length = 50000, deli='_'):
+                 seg_only = False, filt = False, max_length = 50000, deli='_', rm_space=False):
         '''初始化函数，传入用户设置的参数，并且根据参数初始化不同
         模型（调入不同的.dat文件，该文件存储了一个双数组trie树）'''
         self.__user_specified_dict_name = user_dict
@@ -31,12 +31,13 @@ class thulac:
         self.__seg_only = seg_only
         self.__use_filter = filt
         self.__maxLength = max_length
+        self.rmSpace = rm_space
         self.__coding = "utf-8"
         self.__prefix = self.__setPrefix()
         self.__poc_cands = []
         self.__cws_tagging_decoder = None
         self.__tagging_decoder = None
-        self.__preprocesserpreprocesser = Preprocesser()
+        self.__preprocesserpreprocesser = Preprocesser(rm_space=rm_space)
         self.__preprocesserpreprocesser.setT2SMap((self.__prefix+"t2s.dat"))
         self.__nsDict = Postprocesser((self.__prefix+"ns.dat"), "ns", False)
         self.__idiomDict = Postprocesser((self.__prefix+"idiom.dat"), "i", False)
@@ -83,7 +84,13 @@ class thulac:
         array = []
         if(text):
             for line in oiraw:
-                temp_txt = reduce(lambda x, y: x + ' ' + y, cut_method(line), '') + '\n'
+                # if(self.rmSpace):
+                temp_txt = reduce(lambda x, y: x + ' ' + y if y != " " else x, cut_method(line), '') + '\n'
+                # else:
+                #     for word in cut_method(line):
+                #         if(word == " "):
+                #             continue
+                #         temp_txt += word
                 txt += temp_txt[1:]
             return txt[:-1]
         else:
@@ -95,6 +102,8 @@ class thulac:
                         array += (reduce(lambda x, y: x + [y.split(self.__separator)], cut_method(line), []))
                 array += [['\n', '']]
             return array[:-1]
+
+
 
     def cut(self, oiraw, text = False):
         return self.__cutWithOutMethod(oiraw, self.__cutline, text = text)
@@ -117,6 +126,7 @@ class thulac:
                 raw = self.__preprocesserpreprocesser.T2S(traw)
             else:
                 raw, __poc_cands = self.__preprocesserpreprocesser.clean(oiraw)
+                # raw = oiraw
 
             if(len(raw) > 0):
                 if(self.__seg_only):
@@ -149,7 +159,8 @@ class thulac:
         else:
             return map(lambda x: encode("".join(x)), ans)
         
-
+    def foo(self, x):
+        return x
     def __SoInit(self):
         '''fast_cut函数需要使用thulac.so，在这里导入.so文件'''
         if(not self.__user_specified_dict_name):
@@ -160,6 +171,7 @@ class thulac:
         self.__so = self.__SoInit()
         result = self.__so.seg(oiraw)
         return result.split()
+
 
     def run(self):
         '''命令行交互程序'''
@@ -210,3 +222,32 @@ class thulac:
         else:
             vec.append(oiraw[l-num:])
         return vec
+
+    def multiprocessing_cut_f(self, input_file, output_file, core = 0):
+        from multiprocessing import Pool
+        if core:
+            p = Pool(1)
+        else:
+            p = Pool()
+        output_f = open(output_file, 'w')
+        input_f = open(input_file, 'r')
+        f = input_f.readlines()
+        # cutline = _cutline(self)
+        x = p.map(self.__cutline, f)
+        for line in x:
+            line_text = " ".join(line)
+            output_f.write(line_text)
+        output_f.close()
+
+#     def cutline(self, oiraw):
+#         return self.__cutline(oiraw)
+# thu = thulac(seg_only=True)
+# def _cutline():
+#     def cutline(x):
+#         return thu.__cutline(x)
+#     return cutline
+
+# def cutline(x):
+#     return thu.cutline(x)
+
+

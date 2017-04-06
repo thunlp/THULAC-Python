@@ -36,3 +36,14 @@ def testFilt():
 	print(gold)
 	assert gold == "我 爱 北京 天安门"
 
+def testrmSpace():
+	test_text1 = "而荔 波 肉又 丧 心 病 狂 的不肯悔改"
+	test_text2 = "我爱北京天 安 门"
+	thu = thulac.thulac(seg_only = True, rm_space = False)
+	gold1 = thu.cut(test_text1, text = True)
+	gold2 = thu.cut(test_text2, text = True)
+	print(gold1, gold2)
+	assert gold1 == "而 荔 波 肉 又 丧 心 病 狂 的 不 肯 悔改"
+	assert gold2 == "我 爱 北京 天 安 门"
+
+

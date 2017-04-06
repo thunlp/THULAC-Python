@@ -10,6 +10,7 @@ class Dat:
         if(filename):
             inputfile = open(filename, "rb")
             self.datSize = int(os.path.getsize(filename) / 8)
+            
             s = inputfile.read(8 * self.datSize)
             tmp = "<"+str(self.datSize*2)+"i"
             self.dat = struct.unpack(tmp, s)
