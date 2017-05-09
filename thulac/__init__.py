@@ -9,7 +9,8 @@ from .manage.TimeWord import TimeWord
 from .manage.Punctuation import Punctuation
 from .manage.SoExtention import *
 from .base.compatibility import decodeGenerator, cInputGenerator, encodeGenerator
-from functools import reduce 
+from functools import reduce, partial
+import itertools
 import time
 import os
 import re
@@ -185,21 +186,23 @@ class thulac:
     def cut_f(self, input_file, output_file):
         input_f = open(input_file, 'r')
         output_f = open(output_file, 'w')
-        for oiraw in input_f.readlines():
-            cutted = self.cut(oiraw, text = True)
+        for line in input_f:
+            cutted = self.cut(line, text = True)
             output_f.write(cutted + "\n")
 
         output_f.close()
+        input_f.close()
         print("successfully cut file " + input_file + "!")
 
     def fast_cut_f(self, input_file, output_file):
         input_f = open(input_file, 'r')
         output_f = open(output_file, 'w')
         
-        for oiraw in input_f.readlines():
-            cutted = self.fast_cut(oiraw, text = True)
+        for line in input_f:
+            cutted = self.fast_cut(line, text = True)
             output_f.write(cutted + "\n")
         output_f.close()
+        input_f.close()
         print("successfully cut file " + input_file + "!")
 
     def __cutRaw(self, oiraw, maxLength):
@@ -232,22 +235,21 @@ class thulac:
         output_f = open(output_file, 'w')
         input_f = open(input_file, 'r')
         f = input_f.readlines()
-        # cutline = _cutline(self)
-        x = p.map(self.__cutline, f)
+        # thu = thulac(seg_only=True)
+        cutline = partial(_cutline, self)
+        # print(cutline("我爱北京天安门"))
+        x = p.map(func_cutline, itertools.izip(itertools.repeat(self), f))
         for line in x:
             line_text = " ".join(line)
             output_f.write(line_text)
         output_f.close()
 
-#     def cutline(self, oiraw):
-#         return self.__cutline(oiraw)
-# thu = thulac(seg_only=True)
-# def _cutline():
-#     def cutline(x):
-#         return thu.__cutline(x)
-#     return cutline
+    def cutline(self, oiraw):
+        return self.__cutline(oiraw)
 
-# def cutline(x):
-#     return thu.cutline(x)
+def _cutline(lac, x):
+    return lac.cutline(x)
 
-
+def func_cutline(lac_x):
+    """Convert `f([1,2])` to `f(1,2)` call."""
+    return _cutline(*lac_x)

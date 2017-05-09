@@ -8,7 +8,11 @@ class Dat:
 
     def __init__(self, filename=None, datSize=None, oldDat=None):
         if(filename):
-            inputfile = open(filename, "rb")
+            try:
+                inputfile = open(filename, "rb")
+            except:
+                print("open file %s failed" % filename)
+                sys.exit()
             self.datSize = int(os.path.getsize(filename) / 8)
             
             s = inputfile.read(8 * self.datSize)
