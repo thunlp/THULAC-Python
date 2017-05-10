@@ -8,10 +8,10 @@ import platform
 fixCCP = fixC_char_p()
 # path = os.path.dirname(os.path.realpath(__file__)) #设置so文件的位置
 class SoExtention:
-    def __init__(self, model_path, user_dict_path, t2s, just_seg):
+    def __init__(self, model_path, user_dict_path, t2s, just_seg, pre_alloc_size=1024*1024*16):
         root = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) #设置so文件的位置
         self._lib = cdll.LoadLibrary(root+'/libthulac.so') #读取so文件
-        self._lib.init(c_char_p(fixCCP(model_path)), c_char_p(fixCCP(user_dict_path)), int(t2s), int(just_seg)) #调用接口进行初始化
+        self._lib.init(c_char_p(fixCCP(model_path)), c_char_p(fixCCP(user_dict_path)), int(pre_alloc_size), int(t2s), int(just_seg)) #调用接口进行初始化
 
     def clear(self):
         if self._lib != None: self._lib.deinit()
