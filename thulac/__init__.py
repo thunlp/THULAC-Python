@@ -169,7 +169,8 @@ class thulac:
         return SoExtention(self.__prefix, self.__user_specified_dict_name, self.__useT2S, self.__seg_only)
 
     def __fast_cutline(self, oiraw):
-        self.__so = self.__SoInit()
+        if(not self.__so):
+            self.__so = self.__SoInit()
         result = self.__so.seg(oiraw)
         return result.split()
 
