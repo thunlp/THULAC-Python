@@ -85,13 +85,10 @@ class thulac:
         array = []
         if(text):
             for line in oiraw:
-                # if(self.rmSpace):
-                temp_txt = reduce(lambda x, y: x + ' ' + y if y != " " else x, cut_method(line), '') + '\n'
-                # else:
-                #     for word in cut_method(line):
-                #         if(word == " "):
-                #             continue
-                #         temp_txt += word
+                if(self.__seg_only):
+                    temp_txt = reduce(lambda x, y: x + ' ' + y if y != " " else x, cut_method(line), '') + '\n'
+                else:
+                    temp_txt = reduce(lambda x, y: x + ' ' + "".join(y), cut_method(line), '') + '\n'
                 txt += temp_txt[1:]
             return txt[:-1]
         else:
@@ -100,7 +97,7 @@ class thulac:
                     if(self.__seg_only):
                         array += (reduce(lambda x, y: x + [[y, '']], cut_method(line), []))
                     else:
-                        array += (reduce(lambda x, y: x + [y.split(self.__separator)], cut_method(line), []))
+                        array += (reduce(lambda x, y: x + [[y[0], y[2]]], cut_method(line), []))
                 array += [['\n', '']]
             return array[:-1]
 
@@ -158,7 +155,7 @@ class thulac:
         if(self.__seg_only):
             return map(lambda x: encode(x), ans)
         else:
-            return map(lambda x: encode("".join(x)), ans)
+            return map(lambda x: (encode(x[0]), encode(x[1]), encode(x[2])), ans)
         
     def foo(self, x):
         return x
