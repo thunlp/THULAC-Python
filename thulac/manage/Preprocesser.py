@@ -30,31 +30,45 @@ class Preprocesser:
         self.t2s = {}
         self.s2t = {}
         self.rmSpace = rm_space
+        self.isOther = self.is_X(self.otherSet)
+        self.isSinglePun = self.is_X(self.singlePunSet)
+        self.isHttp = self.is_X(self.httpSet)
+        self.isModalParticleSet = self.is_X(self.modalParticleSet)
 
 
-    def isOther(self, c):
-        if(c in self.otherSet):
-            return True
-        else:
-            return False
+    def is_X(self, charType):
+        def func(c):
+            if(c in charType):
+                return True
+            else:
+                return False
+        return func
+
+
+
+    # def isOther(self, c):
+    #     if(c in self.otherSet):
+    #         return True
+    #     else:
+    #         return False
     
-    def isSinglePun(self, c):
-        if(c in self.singlePunSet):
-            return True
-        else:
-            return False
+    # def isSinglePun(self, c):
+    #     if(c in self.singlePunSet):
+    #         return True
+    #     else:
+    #         return False
     
-    def isHttp(self, c):
-        if(c in self.httpSet):
-            return True
-        else:
-            return False
+    # def isHttp(self, c):
+    #     if(c in self.httpSet):
+    #         return True
+    #     else:
+    #         return False
 
-    def isModalParticleSet(self, c):
-        if(c in self.modalParticleSet):
-            return True
-        else:
-            return False
+    # def isModalParticleSet(self, c):
+    #     if(c in self.modalParticleSet):
+    #         return True
+    #     else:
+    #         return False
 
     def setT2SMap(self, filename):
         file = open(filename, "rb")
