@@ -73,7 +73,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 * `cut(文本, text=False)` 对一句话进行分词
 
 	```
-	text 				默认为False, 是否返回文本，不返回文本则返回一个二维数组([[word, tag]..]),tag_only模式下tag为空字符。
+	text 				默认为False, 是否返回文本，不返回文本则返回一个二维数组([[word, tag]..]),seg_only模式下tag为空字符。
 	```
 
 * `cut_f(输入文件, 输出文件)` 对文件进行分词
