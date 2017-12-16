@@ -168,8 +168,10 @@ class thulac:
     def __fast_cutline(self, oiraw):
         if(not self.__so):
             self.__so = self.__SoInit()
-        result = self.__so.seg(oiraw)
-        return result.split()
+        result = self.__so.seg(oiraw).split()
+        if not self.__seg_only:
+            result = map(lambda x: re.split(r'(_)', x), result)
+        return result
 
 
     def run(self):
