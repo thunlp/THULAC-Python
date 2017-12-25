@@ -212,14 +212,14 @@ class thulac:
         m = re.findall(u".*?[。？！；;!?]", oiraw)
         num, l, last = 0, 0, 0
         for i in range(len(m)):
-            if(num + len(m[i]) > maxLength):
+            if(num + len(m[i]) >= maxLength):
                 vec.append("".join(m[last:i]))
                 last = i
                 num = len(m[i])
             else:
                 num += len(m[i])
             l += len(m[i])
-        if(len(oiraw)-l + num > maxLength):
+        if(len(oiraw)-l + num >= maxLength):
             vec.append("".join(m[last:len(m)]))
             vec.append(oiraw[l:])
         else:
