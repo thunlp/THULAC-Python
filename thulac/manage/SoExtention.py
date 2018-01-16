@@ -23,7 +23,9 @@ class SoExtention:
         p = self._lib.getResult()
         s = cast(p,c_char_p)
         d = '%s'%s.value
-        self._lib.freeResult();
         if(isPython2):
+            self._lib.freeResult();
             return d
-        return s.value.decode('utf-8')
+        s = s.value.decode('utf-8')
+        self._lib.freeResult();
+        return s
