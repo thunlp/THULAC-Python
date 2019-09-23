@@ -63,7 +63,7 @@ THULAC（THU Lexical Analyzer for Chinese）由清华大学自然语言处理与
 	```
 	user_dict	      	设置用户词典，用户词典中的词会被打上uw标签。词典中每一个词一行，UTF8编码
 	T2S					默认False, 是否将句子从繁体转化为简体
-	seg_only	   		默认False, 时候只进行分词，不进行词性标注
+	seg_only	   		默认False, 是否只进行分词，不进行词性标注
 	filt		   		默认False, 是否使用过滤器去除一些没有意义的词语，例如“可以”。
 	model_path	 	    设置模型文件所在文件夹，默认为models/
 	deli	 	      	默认为‘_’, 设置词与词性之间的分隔符
