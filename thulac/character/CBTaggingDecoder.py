@@ -167,7 +167,7 @@ class CBTaggingDecoder:
                 self.allowedLabelLists[i] = self.pocsToTags[15]
         self.sequence = raw
         self.len = len(raw)
-        start = time.clock()
+        start = time.process_time()
         self.putValues()
         self.dp()
 
